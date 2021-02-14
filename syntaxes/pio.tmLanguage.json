@@ -1,0 +1,175 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "PIO Assembly",
+	"patterns": [
+		{
+			"name": "instruction.pio",
+			"match": "^\\s*\\b(?i)(push|pull|nop)\\b",
+			"captures": {
+				"1": {
+					"name": "support.function.instruction.pio"
+				}
+			}
+		},
+		{
+			"name": "instruction.pio",
+			"match": "^\\s*\\b(?i)(jmp|wait|in|out|push|pull|mov|irq|set)\\s+(\\w+--|\\w+|[0-31])[,]?\\s*(\\bside\\s0x[0-31]|\\w*|[0-31])",
+			"captures": {
+				"1": {
+					"name": "support.function.instruction.pio"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#condition"
+						},
+						{
+							"name": "constant.numeric.pio",
+							"match": "[0-31]"
+						},
+						{
+							"name": "support.variable.arg.pio",
+							"match": ".*"
+						}
+					]
+				},
+				"3": {
+					"patterns": [
+						{
+							"include": "#side"
+						},
+						{
+							"name": "constant.numeric.pio",
+							"match": "[0-31]"
+						},
+						{
+							"name": "support.variable.address.pio",
+							"match": ".*"
+						}
+					]
+				}
+			}
+		},
+		{
+			"name": "directive.pio",
+			"match": "^([.]\\w+)(.*)",
+			"captures": {
+				"1":{
+					"patterns": [
+						{
+							"include": "#directives"
+						},
+						{
+							"match": "[.].*",
+							"name": "invalid.illegal.condition.pio"
+						}
+					]
+				}
+			}
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#entity"
+		},
+		{
+			"include": "#side"
+		},
+		{
+			"include": "#delay"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keywords.pio",
+					"match": "\\b(?i)(jmp|wait|in|out|push|pull|mov|irq|set)\\b"
+				}
+			]
+		},
+		"directives": {
+			"patterns": [
+				{
+					"name": "support.class.pio",
+					"match": "[.]\\b(define|program|origin|side_set|wrap_target|wrap|lang_opt|word)\\b"
+				}
+			]
+		},
+		"condition": {
+			"patterns": [
+				{
+					"name": "variable.language.condition.pio",
+					"match": "\\b(?i)(!x|x--|!y|y--|x!=y|pindirs|pins|pin|!osre|x|y|null|pc)"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.pio",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.pio",
+					"match": "\\\\."
+				}
+			]
+		},
+		"comments" : {
+			"patterns": [
+				{
+					"match": ";.*$",
+					"name": "comment.line.pio"
+				},
+				{
+					"begin": "\\/\\*",
+					"beginCaptures": {
+					  "0": {
+						"name": "comment.block.begin.arm"
+					  }
+					},
+					"endCaptures": {
+					  "0": {
+						"name": "comment.block.end.pio"
+					  }
+					},
+					"end": "\\*\\/",
+					"name": "comment.block.pio"
+				}
+			]
+		},
+		"entity": {
+			"patterns": [
+				{
+					"name": "keyword.control.pio",
+					"match": "^\\w*\\:$"
+				},
+				{
+					"name": "keyword.control.pio",
+					"match": "^public\\s*\\w*\\:$"
+				}
+			]
+		},
+		"side": {
+			"patterns": [
+				{
+					"name": "variable.parameter.side.pio",
+					"match": "\\bside\\s0x[0-32]"
+				}
+			]
+		},
+		"delay": {
+			"patterns": [
+				{
+					"name": "variable.other.delay.pio",
+					"match": "\\s\\[[0-32]\\]"
+				}
+			]
+		}
+	},
+	"scopeName": "source.pio"
+}

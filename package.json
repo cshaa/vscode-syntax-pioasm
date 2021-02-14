@@ -1,0 +1,25 @@
+{
+    "name": "pioasm",
+    "displayName": "pioasm",
+    "description": "Syntax highlighting for Raspberry Pi Pico ASM",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.53.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "pio",
+            "aliases": ["PIO Assembly", "pio"],
+            "extensions": [".pio"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "pio",
+            "scopeName": "source.pio",
+            "path": "./syntaxes/pio.tmLanguage.json"
+        }]
+    }
+}
