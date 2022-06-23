@@ -68,6 +68,13 @@
 			}
 		},
 		{
+			"begin": "% c-sdk {",
+			"end": "%}",
+			"patterns":[{
+				"include": "source.cpp"
+			}]
+		},
+		{
 			"include": "#strings"
 		},
 		{
